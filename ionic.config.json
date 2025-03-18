@@ -1,0 +1,7 @@
+{
+  "name": "SmartCook",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
