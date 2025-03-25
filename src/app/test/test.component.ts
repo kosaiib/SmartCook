@@ -28,4 +28,14 @@ export class TestComponent  implements OnInit {
     })
   }
 
+  fetchFoodData() {
+    this.api.getFood().subscribe(data => {
+      console.log('Food Data:', data);
+    });
+  }
+fetchCalories() {
+  this.api.getCalories('4820179253313').subscribe(calories => {
+    console.log('Kalorien:', calories);
+  });
+}
 }
