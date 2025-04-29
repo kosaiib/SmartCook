@@ -1,17 +1,41 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
+    <ion-title>Rezepte App</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-select [(ngModel)]="neueZutat" placeholder="Zutat auswählen">
+      <ion-select-option *ngFor="let z of zutatenListe" [value]="z">
+        {{ z }}
+      </ion-select-option>
+    </ion-select>
+    <ion-button (click)="zutatHinzufuegen()">Hinzufügen</ion-button>
+  </ion-item>
 
-  <app-test></app-test>
+  <ion-list>
+    <ion-item *ngFor="let z of ausgewaehlteZutaten; let i = index">
+      {{ z }}
+      <ion-button fill="clear" color="danger" slot="end" (click)="zutatEntfernen(i)">
+        Entfernen
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="block" color="primary" (click)="rezepteSuchen()">
+    Rezepte anzeigen
+  </ion-button>
+
+  <ion-card *ngFor="let rezept of rezepte">
+    <img [src]="rezept.strMealThumb" />
+    <ion-card-header>
+      <ion-card-title>{{ rezept.strMeal }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Kategorie: {{ rezept.strCategory || 'Unbekannt' }}<br />
+      Herkunft: {{ rezept.strArea || 'Unbekannt' }}
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>
