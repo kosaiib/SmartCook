@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Rezepte App</ion-title>
+    <ion-title>Rezepte suchen</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -35,7 +35,8 @@
     <ion-card-content>
       Kategorie: {{ rezept.strCategory || 'Unbekannt' }}<br />
       Herkunft: {{ rezept.strArea || 'Unbekannt' }}
+
+      <ion-button (click)="addToFavorites(rezept)">Zu Favoriten hinzufügen</ion-button>
     </ion-card-content>
   </ion-card>
-
 </ion-content>
