@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { forkJoin, map, Observable } from 'rxjs';
+import { forkJoin, map, switchMap, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MealService {
-
   private apiUrl = 'https://www.themealdb.com/api/json/v1/1';
 
   constructor(private http: HttpClient) {}
@@ -30,15 +29,17 @@ export class MealService {
   }
 
   searchByMultipleIngredients(ingredients: string[]): Observable<any[]> {
-    const requests = ingredients.map(i => this.searchByIngredient(i));
-    return forkJoin(requests).pipe(
+    const ingredientRequests = ingredients.map(i => this.searchByIngredient(i));
+
+    return forkJoin(ingredientRequests).pipe(
       map(results => {
-        const allMeals = results.reduce((acc, val) => acc.concat(val), []);
-        const uniqueMeals = new Map();
-        for (let meal of allMeals) {
-          uniqueMeals.set(meal.idMeal, meal);
-        }
-        return Array.from(uniqueMeals.values());
+        const allMeals = results.flat();
+        const uniqueMealIds = [...new Set(allMeals.map(meal => meal.idMeal))];
+        return uniqueMealIds;
+      }),
+      switchMap(ids => {
+        const detailRequests = ids.map(id => this.getMealDetails(id));
+        return forkJoin(detailRequests);
       })
     );
   }
