@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {forkJoin, map, Observable} from "rxjs";
+import { HttpClient } from '@angular/common/http';
+import { forkJoin, map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +34,6 @@ export class MealService {
     return forkJoin(requests).pipe(
       map(results => {
         const allMeals = results.reduce((acc, val) => acc.concat(val), []);
-
         const uniqueMeals = new Map();
         for (let meal of allMeals) {
           uniqueMeals.set(meal.idMeal, meal);

@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ rezept?.strMeal || 'Details' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" *ngIf="rezept">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" sizeMd="6">
+        <img [src]="rezept.strMealThumb" style="width: 100%; border-radius: 12px;" />
+
+      </ion-col>
+
+      <ion-col size="12" sizeMd="6">
+        <h3>Zutaten</h3>
+        <ul>
+          <li *ngFor="let z of getZutatenListe()">{{ z }}</li>
+        </ul>
+
+        <h3>Anleitung</h3>
+        <p>{{ rezept.strInstructions }}</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
