@@ -5,13 +5,25 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-item>
-    <ion-select [(ngModel)]="neueZutat" placeholder="Zutat auswählen">
-      <ion-select-option *ngFor="let z of zutatenListe" [value]="z">
-        {{ z }}
-      </ion-select-option>
-    </ion-select>
-    <ion-button (click)="zutatHinzufuegen()">Hinzufügen</ion-button>
+  <ion-searchbar
+    [(ngModel)]="suchbegriff"
+    (ionInput)="suche($event)"
+    placeholder="Rezepte und Zutaten auf Englisch eingeben"
+    debounce="300">
+  </ion-searchbar>
+
+  <ion-list *ngIf="vorschlaege.length > 0">
+    <ion-item *ngFor="let v of vorschlaege" (click)="vorschlagAuswaehlen(v)">
+      <ion-label>
+        <strong *ngIf="v.type === 'zutat'">🥕 Zutat:</strong>
+        <strong *ngIf="v.type === 'rezept'">📖 Rezept:</strong>
+        {{ v.name }}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-item *ngIf="suchbegriff && vorschlaege.length === 0">
+    Keine passenden Zutaten oder Rezepte gefunden.
   </ion-item>
 
   <ion-list>

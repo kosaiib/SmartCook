@@ -43,4 +43,9 @@ export class MealService {
       })
     );
   }
+
+  // 🔍 Methode zum Suchen nach Rezepten
+  searchByName(name: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/search.php?s=${name}`);
+  }
 }

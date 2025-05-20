@@ -5,6 +5,11 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
+interface Vorschlag {
+  name: string;
+  type: 'zutat' | 'rezept';
+}
+
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -16,7 +21,8 @@ export class Tab1Page implements OnInit {
   zutatenListe: string[] = [];
   ausgewaehlteZutaten: string[] = [];
   rezepte: any[] = [];
-  neueZutat: string = '';
+  suchbegriff: string = '';
+  vorschlaege: Vorschlag[] = [];
 
   constructor(
     private mealService: MealService,
@@ -29,19 +35,54 @@ export class Tab1Page implements OnInit {
     });
   }
 
+  suche(event: any) {
+    const eingabe: string = event.target.value?.toLowerCase().trim();
+    this.vorschlaege = [];
 
-  zutatHinzufuegen() {
-    if (
-      this.neueZutat.trim() &&
-      !this.ausgewaehlteZutaten.includes(this.neueZutat)
-    ) {
-      this.ausgewaehlteZutaten.push(this.neueZutat);
-      this.neueZutat = '';
+    if (!eingabe) return;
+
+    const zutatenTreffer: Vorschlag[] = this.zutatenListe
+      .filter(z => z.toLowerCase().includes(eingabe))
+      .map((name: string) => ({ name, type: 'zutat' }));
+
+    this.mealService.searchByName(eingabe).subscribe(res => {
+      const rezeptTreffer: Vorschlag[] = res?.meals?.map((r: any) => r.strMeal)
+        .filter((name: string) => name.toLowerCase().includes(eingabe))
+        .map((name: string) => ({ name, type: 'rezept' })) || [];
+
+      const kombiniert = [...zutatenTreffer, ...rezeptTreffer];
+
+      this.vorschlaege = kombiniert.filter(
+        (v, i, self) => self.findIndex(x => x.name === v.name && x.type === v.type) === i
+      );
+    });
+  }
+
+  vorschlagAuswaehlen(v: Vorschlag) {
+    if (v.type === 'zutat') {
+      const bereitsHinzugefuegt = this.ausgewaehlteZutaten
+        .map(z => z.toLowerCase())
+        .includes(v.name.toLowerCase());
+
+      if (!bereitsHinzugefuegt) {
+        this.ausgewaehlteZutaten.push(v.name);
+        this.suchbegriff = '';
+        this.vorschlaege = [];
+      }
+    } else {
+      this.mealService.searchByName(v.name).subscribe(data => {
+        this.rezepte = data?.meals || [];
+        this.suchbegriff = '';
+        this.vorschlaege = [];
+      });
     }
   }
 
   zutatEntfernen(index: number) {
     this.ausgewaehlteZutaten.splice(index, 1);
+    if (this.ausgewaehlteZutaten.length === 0) {
+      this.rezepte = [];
+    }
   }
 
   rezepteSuchen() {
