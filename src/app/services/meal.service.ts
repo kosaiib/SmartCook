@@ -44,8 +44,19 @@ export class MealService {
     );
   }
 
-  // 🔍 Methode zum Suchen nach Rezepten
   searchByName(name: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/search.php?s=${name}`);
+  }
+
+  getCategories(): Observable<string[]> {
+    return this.http
+      .get<any>(`${this.apiUrl}/categories.php`)
+      .pipe(map(res => res.categories.map((c: any) => c.strCategory)));
+  }
+
+  getMealsByCategory(category: string): Observable<any[]> {
+    return this.http
+      .get<any>(`${this.apiUrl}/filter.php?c=${category}`)
+      .pipe(map(res => res.meals || []));
   }
 }

@@ -1,0 +1,140 @@
+:host {
+  --background: #fdfcf7;
+  --helle-farbe: #666666;
+  background-color: var(--background);
+}
+
+h2 {
+  color: #f0e9dc;
+}
+
+ion-toolbar {
+  --background: #222;
+  --color: #f6f7f9;
+  border-bottom: 1px solid #ddd;
+}
+
+ion-title {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+ion-searchbar {
+  --background: #ffffff;
+  --color: #222;
+  --placeholder-color: #999;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  box-shadow: none;
+  border: none;
+}
+
+.vorschlagsliste ion-item {
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  --color: #f0e9dc;
+  color: #f0e9dc;
+}
+
+.vorschlagsliste ion-item ion-label {
+  color: #f0e9dc;
+}
+
+.vorschlagsliste strong {
+  color: #dddddd;
+  margin-right: 6px;
+}
+
+ion-list ion-item {
+  --color: var(--helle-farbe);
+  color: var(--helle-farbe);
+}
+
+.keine-treffer {
+  color: #666;
+  font-style: italic;
+  background: transparent;
+}
+
+.zutatenliste ion-item {
+  background: #fff9f0;
+  border: 1px solid #fce3c3;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  --color: #f0e9dc;
+  color: #f0e9dc;
+}
+
+ion-button[color="danger"] {
+  font-size: 0.9rem;
+}
+
+.rezept-header {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--helle-farbe);
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.rezept-card {
+  animation: fadeIn 0.3s ease-in-out;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  background-color: #ffffff;
+  margin-bottom: 15px;
+}
+
+.rezept-card img {
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid #eee;
+}
+
+ion-card-title {
+  font-size: 1.1rem;
+  color: #2c2c2c;
+}
+
+ion-card-content {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Neue Kategorie-Button Styles === */
+.kategorie-button-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  margin-bottom: 16px;
+  justify-content: start;
+}
+
+.kategorie-button {
+  padding: 6px 14px;
+  background-color: #f0e9dc;
+  color: #333;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.kategorie-button.aktiv {
+  background-color: #222;
+  color: #fff;
+}

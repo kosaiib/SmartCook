@@ -12,7 +12,7 @@
     debounce="300">
   </ion-searchbar>
 
-  <ion-list *ngIf="vorschlaege.length > 0">
+  <ion-list *ngIf="vorschlaege.length > 0" class="vorschlagsliste">
     <ion-item *ngFor="let v of vorschlaege" (click)="vorschlagAuswaehlen(v)">
       <ion-label>
         <strong *ngIf="v.type === 'zutat'">🥕 Zutat:</strong>
@@ -22,11 +22,11 @@
     </ion-item>
   </ion-list>
 
-  <ion-item *ngIf="suchbegriff && vorschlaege.length === 0">
+  <ion-item *ngIf="suchbegriff && vorschlaege.length === 0" class="keine-treffer">
     Keine passenden Zutaten oder Rezepte gefunden.
   </ion-item>
 
-  <ion-list>
+  <ion-list class="zutatenliste" *ngIf="ausgewaehlteZutaten.length > 0">
     <ion-item *ngFor="let z of ausgewaehlteZutaten; let i = index">
       {{ z }}
       <ion-button fill="clear" color="danger" slot="end" (click)="zutatEntfernen(i)">
@@ -35,18 +35,34 @@
     </ion-item>
   </ion-list>
 
-  <ion-button expand="block" color="primary" (click)="rezepteSuchen()">
+  <div class="kategorie-button-container" *ngIf="ausgewaehlteZutaten.length > 0">
+    <button
+      *ngFor="let k of kategorien"
+      class="kategorie-button"
+      [class.aktiv]="ausgewaehlteKategorien.includes(k)"
+      (click)="toggleKategorie(k)">
+      {{ k }}
+    </button>
+  </div>
+
+  <ion-button expand="block" color="primary" (click)="rezepteSuchen()" *ngIf="ausgewaehlteZutaten.length > 0">
     Rezepte anzeigen
   </ion-button>
 
-  <ion-card *ngFor="let rezept of rezepte" (click)="zeigeDetails(rezept.idMeal)" style="cursor: pointer;">
-    <img [src]="rezept.strMealThumb" />
-    <ion-card-header>
-      <ion-card-title>{{ rezept.strMeal }}</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      Kategorie: {{ rezept.strCategory || 'Unbekannt' }}<br />
-      Herkunft: {{ rezept.strArea || 'Unbekannt' }}
-    </ion-card-content>
-  </ion-card>
+  <ng-container *ngIf="rezepte.length > 0">
+    <ion-text color="medium">
+      <h2 class="rezept-header">🍽️ Gefundene Rezepte</h2>
+    </ion-text>
+
+    <ion-card *ngFor="let rezept of rezepte" (click)="zeigeDetails(rezept.idMeal)" class="rezept-card">
+      <img [src]="rezept.strMealThumb" />
+      <ion-card-header>
+        <ion-card-title>{{ rezept.strMeal }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        Kategorie: {{ rezept.strCategory || 'Unbekannt' }}<br />
+        Herkunft: {{ rezept.strArea || 'Unbekannt' }}
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
 </ion-content>

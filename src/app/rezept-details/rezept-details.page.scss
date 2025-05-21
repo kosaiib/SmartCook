@@ -1,0 +1,39 @@
+ :host {
+  --background: #fdfcf7;
+  --helle-farbe: #666666;
+  background-color: var(--background);
+}
+
+ion-toolbar {
+  --background: #222;
+  --color: #f0e9dc;
+  border-bottom: 1px solid #ddd;
+}
+
+ion-title {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+img {
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 15px;
+}
+
+h3 {
+  color: #f0e9dc;
+  margin-top: 1rem;
+  font-weight: 600;
+}
+
+ul {
+  padding-left: 1rem;
+  list-style: disc;
+  color: #dddddd;
+}
+
+p {
+  color: #dddddd;
+  line-height: 1.6;
+}

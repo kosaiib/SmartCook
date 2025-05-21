@@ -1,0 +1,33 @@
+:host {
+  --background: #fdfcf7;
+  background-color: var(--background);
+}
+
+ion-toolbar {
+  --background: #222;
+  --color: #f6f7f9;
+  border-bottom: 1px solid #ddd;
+}
+
+ion-title {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+ion-card {
+  background: #fff9f0;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  margin-top: 1rem;
+}
+
+ion-card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c2c2c;
+}
+
+ion-card-content {
+  color: #555;
+  font-size: 1rem;
+}

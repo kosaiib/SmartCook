@@ -24,6 +24,9 @@ export class Tab1Page implements OnInit {
   suchbegriff: string = '';
   vorschlaege: Vorschlag[] = [];
 
+  kategorien: string[] = ['Seafood', 'Pasta', 'Vegan', 'Vegetarian', 'Desserts'];
+  ausgewaehlteKategorien: string[] = [];
+
   constructor(
     private mealService: MealService,
     private router: Router
@@ -32,6 +35,35 @@ export class Tab1Page implements OnInit {
   ngOnInit() {
     this.mealService.getAllIngredients().subscribe(data => {
       this.zutatenListe = data;
+    });
+  }
+
+  toggleKategorie(kategorie: string) {
+    const index = this.ausgewaehlteKategorien.indexOf(kategorie);
+    if (index > -1) {
+      this.ausgewaehlteKategorien.splice(index, 1);
+    } else {
+      this.ausgewaehlteKategorien.push(kategorie);
+    }
+    this.kategorienGeaendert();
+  }
+
+  kategorienGeaendert() {
+    if (this.ausgewaehlteKategorien.length === 0) {
+      this.rezepte = [];
+      return;
+    }
+
+    const anfragen = this.ausgewaehlteKategorien.map(k =>
+      this.mealService.getMealsByCategory(k)
+    );
+
+    Promise.all(anfragen.map(a => a.toPromise())).then(results => {
+      const zusammengeführt = results.flat();
+      // Duplikate entfernen anhand der Meal ID
+      this.rezepte = zusammengeführt.filter(
+        (r, i, self) => self.findIndex(x => x.idMeal === r.idMeal) === i
+      );
     });
   }
 
